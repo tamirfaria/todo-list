@@ -1,19 +1,43 @@
 {
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".eslintrc.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint './**/*.{js, jsx, ts, tsx}' --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamirfaria/todo-list.git"
   },
   "dependencies": {
     "next": "^13.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tamirfaria/todo-list/issues"
+  },
   "devDependencies": {
     "@types/node": "^20.1.7",
     "@types/react": "^18.2.6",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
-  }
+  },
+  "homepage": "https://github.com/tamirfaria/todo-list#readme"
 }
