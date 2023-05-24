@@ -8,6 +8,7 @@ module.exports = {
   plugins: ["react", "prettier", "@typescript-eslint"],
   extends: [
     "eslint:recommended",
+    "plugin:@next/next/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
@@ -24,7 +25,10 @@ module.exports = {
   },
   ignorePatterns: ["node_modules/"],
   rules: {
-    "react/no-unknown-property": ["error", { ignore: ["css"] }],
-    "react/react-in-jsx-scope": true,
+    "react/no-unknown-property": [
+      "error",
+      { ignore: ["css", "jsx", "global"] },
+    ],
+    "react/react-in-jsx-scope": 0,
   },
 };

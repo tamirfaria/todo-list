@@ -1,4 +1,4 @@
-"use client"
+"use client";
 const basePadding = "5%";
 const breakpoint = "850px";
 
