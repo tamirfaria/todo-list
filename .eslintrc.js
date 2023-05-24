@@ -25,5 +25,6 @@ module.exports = {
   ignorePatterns: ["node_modules/"],
   rules: {
     "react/no-unknown-property": ["error", { ignore: ["css"] }],
+    "react/react-in-jsx-scope": true,
   },
 };
