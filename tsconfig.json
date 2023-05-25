@@ -15,10 +15,12 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["./app/*"],
-      "@pages/*": ["./pages/*"],
-      "@public/*": ["./public/*"],
-      "@theme/*": ["./src/theme/*"]
+      "@app/*": ["app/*"],
+      "@pages/*": ["pages/*"],
+      "@public/*": ["public/*"],
+      "@theme/*": ["src/theme/*"],
+      "@db-crud-todo": ["core"],
+      "@server/*": ["src/server/*"]
     },
     "plugins": [
       {
