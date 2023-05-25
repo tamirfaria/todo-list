@@ -1,6 +1,26 @@
 import { GlobalStyles } from "@theme/GlobalStyles";
 
 const bg = "/bg.avif";
+const todoList = [
+  {
+    id: "bc7a165a-6f92-4cfd-868e-17399accbcff",
+    date: "2023-05-16",
+    content: "Primeira 'To Do'!",
+    done: false,
+  },
+  {
+    id: "3e57a719-c98a-44e2-aa5e-0cb972b66f1a",
+    date: "2023-05-16",
+    content: "Terceira, porém atualizada",
+    done: false,
+  },
+  {
+    id: "b84fbc0c-aab2-401e-bc15-c2f6ac939995",
+    date: "2023-05-16",
+    content: "Quarta 'To Do'!",
+    done: false,
+  },
+];
 
 function HomePage() {
   return (
@@ -36,24 +56,20 @@ function HomePage() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>d4f26</td>
-              <td>
-                Conteúdo de uma TODO Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Eaque vero facilis obcaecati, autem aliquid
-                eius! Consequatur eaque doloribus laudantium soluta optio odit,
-                provident, ab voluptates doloremque voluptas recusandae
-                aspernatur aperiam.
-              </td>
-              <td align="right">
-                <button data-type="delete">Apagar</button>
-              </td>
-            </tr>
+            {todoList.map((todo) => (
+              <tr key={todo.id}>
+                <td>
+                  <input type="checkbox" />
+                </td>
+                <td>{todo.id.substring(0, 4)}</td>
+                <td>{todo.content}</td>
+                <td align="right">
+                  <button data-type="delete">Apagar</button>
+                </td>
+              </tr>
+            ))}
 
-            <tr>
+            {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
                 Carregando...
               </td>
@@ -80,7 +96,7 @@ function HomePage() {
                   </span>
                 </button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </section>
