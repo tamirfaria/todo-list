@@ -1,32 +1,23 @@
+"use client";
+import { TodoList, getTodo } from "@client/controller/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
-
-const bg = "/bg.avif";
-const todoList = [
-  {
-    id: "bc7a165a-6f92-4cfd-868e-17399accbcff",
-    date: "2023-05-16",
-    content: "Primeira 'To Do'!",
-    done: false,
-  },
-  {
-    id: "3e57a719-c98a-44e2-aa5e-0cb972b66f1a",
-    date: "2023-05-16",
-    content: "Terceira, porém atualizada",
-    done: false,
-  },
-  {
-    id: "b84fbc0c-aab2-401e-bc15-c2f6ac939995",
-    date: "2023-05-16",
-    content: "Quarta 'To Do'!",
-    done: false,
-  },
-];
+import { useEffect, useState } from "react";
 
 function HomePage() {
+  const [todoList, setTodoList] = useState<TodoList[]>([
+    { content: "teste", date: "teste", done: false, id: "teste" },
+  ]);
+
+  useEffect(() => {
+    getTodo.get().then((todos) => {
+      setTodoList(todos);
+    });
+  }, []);
+
   return (
     <main>
       <GlobalStyles themeName="devsoutinho" />
-      <header style={{ backgroundImage: `url('${bg}')` }}>
+      <header style={{ backgroundImage: `url("/bg.avif")` }}>
         <div className="typewriter">
           <h1>O que fazer hoje?</h1>
         </div>
@@ -56,18 +47,24 @@ function HomePage() {
           </thead>
 
           <tbody>
-            {todoList.map((todo) => (
-              <tr key={todo.id}>
-                <td>
-                  <input type="checkbox" />
-                </td>
-                <td>{todo.id.substring(0, 4)}</td>
-                <td>{todo.content}</td>
-                <td align="right">
-                  <button data-type="delete">Apagar</button>
-                </td>
-              </tr>
-            ))}
+            {todoList.map((todo, index) => {
+              // console.log(
+              //   `TODO dentro do map - ${JSON.stringify(todo[0].content)}`
+              // );
+              console.log({ todoList });
+              return (
+                <tr key={`${index}-${todo.id}`}>
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{todo.id?.substring(0, 4)}</td>
+                  <td>{todo.content}</td>
+                  <td align="right">
+                    <button data-type="delete">Apagar</button>
+                  </td>
+                </tr>
+              );
+            })}
 
             {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
