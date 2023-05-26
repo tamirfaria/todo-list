@@ -21,7 +21,8 @@
       "@theme/*": ["src/client/theme/*"],
       "@db-crud-todo": ["core"],
       "@server/*": ["src/server/*"],
-      "@client/*": ["src/client/*"]
+      "@client/*": ["src/client/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "plugins": [
       {
