@@ -39,6 +39,18 @@ const pallete = {
     x800: "#8A041A",
     x900: "#610316",
   },
+  yellow: {
+    x050: "#fffce3",
+    x100: "#fffcbd",
+    x200: "#fff39b",
+    x300: "#f8d56a",
+    x400: "#efc94e",
+    x500: "#ffa602b4",
+    x600: "#cf9c11",
+    x700: "#ab8809",
+    x800: "#8a7104",
+    x900: "#614b03",
+  },
   coolGrey: {
     x050: "#F5F7FA",
     x100: "#E4E7EB",
@@ -345,6 +357,10 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           background-color: transparent;
           color: var(--color-negative-x500);
         }
+        .bg-pan-left {
+          -webkit-animation: bg-pan-left 8s both;
+          animation: bg-pan-left 8s both;
+        }
         button[data-type="delete"]:hover,
         button[data-type="delete"]:focus {
           background-color: var(--color-negative-x050);
@@ -386,6 +402,22 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           }
           50% {
             border-color: var(--color-primary-x100);
+          }
+        }
+        @-webkit-keyframes bg-pan-left {
+          0% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        @keyframes bg-pan-left {
+          0% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
           }
         }
       `}

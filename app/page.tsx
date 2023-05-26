@@ -28,10 +28,21 @@ function HomePage() {
     </tr>
   ));
 
+  enum colorThemes {
+    indigo = "indigo",
+    devsoutinho = "devsoutinho",
+    red = "red",
+    yellow = "yellow",
+    coolGrey = "coolGrey",
+  }
+
   return (
     <main>
-      <GlobalStyles themeName="devsoutinho" />
-      <header style={{ backgroundImage: `url("/bg.avif")` }}>
+      <GlobalStyles themeName={colorThemes.yellow} />
+      <header
+        className="bg-pan-left"
+        style={{ backgroundImage: `url("/bg.avif")` }}
+      >
         <div className="typewriter">
           <h1>O que fazer hoje?</h1>
         </div>
