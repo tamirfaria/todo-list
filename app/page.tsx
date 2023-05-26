@@ -1,5 +1,6 @@
 "use client";
-import { TodoList, getTodo } from "@client/controller/todo";
+import { getTodo } from "@client/controller/todo";
+import { TodoList } from "@db-crud-todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
 import { formatedDate } from "@utils/formatedDate";
 import { useEffect, useState } from "react";

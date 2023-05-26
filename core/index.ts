@@ -1,7 +1,7 @@
 import fs from "fs";
 import { v4 as uuid } from "uuid";
 
-interface Todo {
+export interface TodoList {
   id: string;
   date: string;
   content: string;
@@ -10,28 +10,28 @@ interface Todo {
 
 const DB_FILE_PATH = "./core/db";
 
-export function create(content: string): Todo {
-  const todo: Todo = {
+export function create(content: string): TodoList {
+  const todo: TodoList = {
     id: uuid(),
     date: new Date().toISOString().split("T")[0],
     content: content,
     done: false,
   };
 
-  const todoList: Array<Todo> = [...read(), todo];
+  const todoList: Array<TodoList> = [...read(), todo];
   const stringfiedTodo = JSON.stringify({ todoList }, null, 2);
   fs.writeFileSync(DB_FILE_PATH, stringfiedTodo);
 
   return todo;
 }
 
-export function read(): Array<Todo> {
+export function read(): Array<TodoList> {
   const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8") || "{}";
   const db = JSON.parse(dbString);
   return !db.todoList ? [] : db.todoList;
 }
 
-export function update(id: string, partialTodo: Partial<Todo>): Todo {
+export function update(id: string, partialTodo: Partial<TodoList>): TodoList {
   let updatedTodo;
   const todoList = read();
   todoList.forEach((currentTodo) => {
@@ -52,7 +52,7 @@ export function update(id: string, partialTodo: Partial<Todo>): Todo {
   return updatedTodo;
 }
 
-export function updateContentById(id: string, content: string): Todo {
+export function updateContentById(id: string, content: string): TodoList {
   return update(id, { content });
 }
 
