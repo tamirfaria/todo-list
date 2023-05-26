@@ -1,18 +1,31 @@
 "use client";
 import { TodoList, getTodo } from "@client/controller/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
+import { formatedDate } from "@utils/formatedDate";
 import { useEffect, useState } from "react";
 
 function HomePage() {
-  const [todoList, setTodoList] = useState<TodoList[]>([
-    { content: "teste", date: "teste", done: false, id: "teste" },
-  ]);
+  const [todoList, setTodoList] = useState<TodoList[]>([]);
 
   useEffect(() => {
     getTodo.get().then((todos) => {
       setTodoList(todos);
     });
   }, []);
+
+  const formatedTodoList = todoList.map(({ id, date, content }) => (
+    <tr key={`${id}`}>
+      <td>
+        <input type="checkbox" />
+      </td>
+      <td>{id.substring(0, 5)}</td>
+      <td>{content}</td>
+      <td>{formatedDate(date)}</td>
+      <td align="right">
+        <button data-type="delete">Apagar</button>
+      </td>
+    </tr>
+  ));
 
   return (
     <main>
@@ -42,30 +55,13 @@ function HomePage() {
               </th>
               <th align="left">Id</th>
               <th align="left">Conteúdo</th>
-              <th />
+              <th align="left">Data</th>
+              <th align="center">Ação</th>
             </tr>
           </thead>
 
           <tbody>
-            {todoList.map((todo, index) => {
-              // console.log(
-              //   `TODO dentro do map - ${JSON.stringify(todo[0].content)}`
-              // );
-              console.log({ todoList });
-              return (
-                <tr key={`${index}-${todo.id}`}>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>{todo.id?.substring(0, 4)}</td>
-                  <td>{todo.content}</td>
-                  <td align="right">
-                    <button data-type="delete">Apagar</button>
-                  </td>
-                </tr>
-              );
-            })}
-
+            {formatedTodoList}
             {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
                 Carregando...
