@@ -1,3 +1,5 @@
+import { validatedResponse } from "@utils/validatedResponse";
+
 export interface Todo {
   id: string;
   content: string;
@@ -22,11 +24,12 @@ async function get({
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetResponse> {
   const res = await fetch("/api/todos");
   const data = await res.json();
+  const convertedData = validatedResponse(data);
 
-  const totalData = data.todos.length;
+  const totalData = convertedData.todos.length;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
-  const paginatedData = data.todos.slice(startIndex, endIndex);
+  const paginatedData = convertedData.todos.slice(startIndex, endIndex);
   const totalPages = Math.ceil(totalData / limit);
 
   return {
