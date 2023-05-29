@@ -1,16 +1,16 @@
 "use client";
-import { getTodo } from "@client/controller/todo";
-import { TodoList } from "@db-crud-todo";
+import { todoController } from "@client/controller/todo";
+import { Todo } from "@client/repository/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
 import { formatedDate } from "@utils/formatedDate";
 import { useEffect, useState } from "react";
 
 function HomePage() {
-  const [todoList, setTodoList] = useState<TodoList[]>([]);
+  const [todoList, setTodoList] = useState<Todo[]>([]);
 
   useEffect(() => {
-    getTodo.get().then((todos) => {
-      setTodoList(todos);
+    todoController.get({ page: 1, limit: 3 }).then((todos) => {
+      setTodoList(todos.todos);
     });
   }, []);
 
