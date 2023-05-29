@@ -1,15 +1,28 @@
 import { Todo } from "@client/repository/todo";
 
-export function validatedResponse(responseBody: unknown): {
-  todos: Array<Todo>;
-} {
+interface ValidatedResponseParams {
+  responseBody: unknown;
+}
+
+interface ValidatedResponseReturn {
+  todos: Todo[];
+  pages: number;
+  total: number;
+}
+
+export function validatedResponse({
+  ...responseBody
+}: ValidatedResponseParams): ValidatedResponseReturn {
   const isValidResponse =
     responseBody !== null &&
-    responseBody !== undefined &&
     typeof responseBody === "object" &&
-    "todos" in responseBody;
+    "todos" in responseBody &&
+    "pages" in responseBody &&
+    "total" in responseBody;
 
   if (isValidResponse && Array.isArray(responseBody.todos)) {
+    const pages = Number(responseBody.pages);
+    const total = Number(responseBody.total);
     const todos = responseBody.todos.map((todo) => {
       const hasError = todo === null && typeof todo !== "object";
       if (hasError) {
@@ -19,7 +32,7 @@ export function validatedResponse(responseBody: unknown): {
       const { id, content, date, done } = todo as {
         id: string;
         content: string;
-        date: string;
+        date: Date;
         done: boolean;
       };
 
@@ -32,10 +45,15 @@ export function validatedResponse(responseBody: unknown): {
     });
 
     return {
-      todos: todos,
+      todos,
+      total,
+      pages,
     };
   }
+
   return {
+    pages: 1,
+    total: 0,
     todos: [],
   };
 }
