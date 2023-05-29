@@ -1,24 +1,49 @@
 "use client";
 import { todoController } from "@client/controller/todo";
-import { Todo } from "@client/repository/todo";
+import { Todo } from "@client/model/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
 import { formatedDate } from "@utils/formatedDate";
 import { useEffect, useState } from "react";
 
 function HomePage() {
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [todoList, setTodoList] = useState<Todo[]>([]);
 
   useEffect(() => {
-    todoController.get({ page, limit: 2 }).then(({ todos, pages }) => {
-      setTodoList((oldTodos) => [...oldTodos, ...todos]);
-      setTotalPages(pages);
-    });
-  }, [page]);
+    setInitialLoadComplete(true);
+    if (!initialLoadComplete) {
+      todoController
+        .get({ page, limit: 2 })
+        .then(({ todos, pages }) => {
+          setTodoList(todos);
+          setTotalPages(pages);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, []);
 
   const hasMorePages = totalPages > page;
-  const handlePage = () => setPage(page + 1);
+  const hasNoTodos = todoList.length === 0;
+  const handlePage = () => {
+    setIsLoading(true);
+    const nextPage = page + 1;
+    setPage(nextPage);
+
+    todoController
+      .get({ page: nextPage, limit: 2 })
+      .then(({ todos, pages }) => {
+        setTodoList((oldTodos) => [...oldTodos, ...todos]);
+        setTotalPages(pages);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   const formatedTodoList = todoList.map(({ id, date, content }) => (
     <tr key={`${id}`}>
@@ -72,17 +97,22 @@ function HomePage() {
 
           <tbody>
             {formatedTodoList}
-            {/* <tr>
-              <td colSpan={4} align="center" style={{ textAlign: "center" }}>
-                Carregando...
-              </td>
-            </tr>
 
-            <tr>
-              <td colSpan={4} align="center">
-                Nenhum item encontrado
-              </td>
-            </tr> */}
+            {isLoading && (
+              <tr>
+                <td colSpan={4} align="center" style={{ textAlign: "center" }}>
+                  Carregando...
+                </td>
+              </tr>
+            )}
+
+            {hasNoTodos && (
+              <tr>
+                <td colSpan={4} align="center">
+                  Nenhum item encontrado
+                </td>
+              </tr>
+            )}
 
             <tr>
               <td colSpan={5} align="center" style={{ textAlign: "center" }}>
