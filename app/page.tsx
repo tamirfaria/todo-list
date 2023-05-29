@@ -6,13 +6,19 @@ import { formatedDate } from "@utils/formatedDate";
 import { useEffect, useState } from "react";
 
 function HomePage() {
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
   const [todoList, setTodoList] = useState<Todo[]>([]);
 
   useEffect(() => {
-    todoController.get({ page: 1, limit: 3 }).then((todos) => {
-      setTodoList(todos.todos);
+    todoController.get({ page, limit: 2 }).then(({ todos, pages }) => {
+      setTodoList((oldTodos) => [...oldTodos, ...todos]);
+      setTotalPages(pages);
     });
-  }, []);
+  }, [page]);
+
+  const hasMorePages = totalPages > page;
+  const handlePage = () => setPage(page + 1);
 
   const formatedTodoList = todoList.map(({ id, date, content }) => (
     <tr key={`${id}`}>
@@ -28,17 +34,9 @@ function HomePage() {
     </tr>
   ));
 
-  enum colorThemes {
-    indigo = "indigo",
-    devsoutinho = "devsoutinho",
-    red = "red",
-    yellow = "yellow",
-    coolGrey = "coolGrey",
-  }
-
   return (
     <main>
-      <GlobalStyles themeName={colorThemes.yellow} />
+      <GlobalStyles themeName={"yellow"} />
       <header
         className="bg-pan-left"
         style={{ backgroundImage: `url("/bg.avif")` }}
@@ -84,12 +82,16 @@ function HomePage() {
               <td colSpan={4} align="center">
                 Nenhum item encontrado
               </td>
-            </tr>
+            </tr> */}
 
             <tr>
-              <td colSpan={4} align="center" style={{ textAlign: "center" }}>
-                <button data-type="load-more">
-                  Carregar mais{" "}
+              <td colSpan={5} align="center" style={{ textAlign: "center" }}>
+                <button
+                  data-type="load-more"
+                  onClick={handlePage}
+                  disabled={!hasMorePages}
+                >
+                  Página {page} - Carregar mais{" "}
                   <span
                     style={{
                       display: "inline-block",
@@ -101,7 +103,7 @@ function HomePage() {
                   </span>
                 </button>
               </td>
-            </tr> */}
+            </tr>
           </tbody>
         </table>
       </section>
