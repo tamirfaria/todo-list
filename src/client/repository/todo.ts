@@ -1,11 +1,5 @@
+import { Todo } from "@client/model/todo";
 import { validatedResponse } from "@utils/validatedResponse";
-
-export interface Todo {
-  id: string;
-  content: string;
-  date: Date;
-  done: boolean;
-}
 
 interface TodoRepositoryGetParams {
   page: number;

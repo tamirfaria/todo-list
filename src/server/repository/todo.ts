@@ -1,11 +1,5 @@
 import { read } from "@db-crud-todo";
-
-interface Todo {
-  id: string;
-  content: string;
-  date: Date;
-  done: boolean;
-}
+import { Todo } from "@server/model/todo";
 
 interface TodoRepositoryGetParams {
   page?: number;
