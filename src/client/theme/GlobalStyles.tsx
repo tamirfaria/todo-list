@@ -176,12 +176,11 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
         // [Header Area]
         header {
           min-height: 250px;
+          min-width: 50vw;
           color: var(--color-neutral-x050);
-          background-color: var(--color-primary-x500);
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
-          background-blend-mode: luminosity;
           position: relative;
           padding-left: ${basePadding};
           padding-right: ${basePadding};
@@ -192,7 +191,6 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
         }
         header:before {
           content: "";
-          background-color: rgba(0, 0, 0, 0.5);
           position: absolute;
           z-index: 1;
           top: 0;
