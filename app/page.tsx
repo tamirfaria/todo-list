@@ -3,19 +3,19 @@ import { todoController } from "@client/controller/todo";
 import { Todo } from "@client/model/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
 import { formatedDate } from "@utils/formatedDate";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 function HomePage() {
-  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const initialLoadComplete = useRef(false);
+  const isLoading = useRef(true);
+
   const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(1);
   const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    setInitialLoadComplete(true);
-    if (!initialLoadComplete) {
+    if (!initialLoadComplete.current) {
       todoController
         .get({ page, limit: 2 })
         .then(({ todos, pages }) => {
@@ -23,7 +23,8 @@ function HomePage() {
           setTotalPages(pages);
         })
         .finally(() => {
-          setIsLoading(false);
+          isLoading.current = false;
+          initialLoadComplete.current = true;
         });
     }
   }, []);
@@ -37,7 +38,7 @@ function HomePage() {
   const hasNoTodos = filteredTodos.length === 0;
 
   const handlePage = () => {
-    setIsLoading(true);
+    isLoading.current = true;
     const nextPage = page + 1;
     setPage(nextPage);
 
@@ -48,18 +49,19 @@ function HomePage() {
         setTotalPages(pages);
       })
       .finally(() => {
-        setIsLoading(false);
+        isLoading.current = false;
       });
   };
+
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const valueSearch = event.target.value;
     setSearch(valueSearch);
   };
 
-  const formatedTodoList = filteredTodos.map(({ id, date, content }) => (
+  const formatedTodoList = filteredTodos.map(({ id, date, content, done }) => (
     <tr key={`${id}`}>
       <td>
-        <input type="checkbox" />
+        <input type="checkbox" checked={done} />
       </td>
       <td>{id.substring(0, 5)}</td>
       <td>{content}</td>
@@ -113,9 +115,9 @@ function HomePage() {
           <tbody>
             {formatedTodoList}
 
-            {isLoading && (
+            {isLoading.current && (
               <tr>
-                <td colSpan={4} align="center" style={{ textAlign: "center" }}>
+                <td colSpan={5} align="center" style={{ textAlign: "center" }}>
                   Carregando...
                 </td>
               </tr>
@@ -123,14 +125,14 @@ function HomePage() {
 
             {hasNoTodos && (
               <tr>
-                <td colSpan={4} align="center">
+                <td colSpan={5} align="center">
                   Nenhum item encontrado
                 </td>
               </tr>
             )}
 
             <tr>
-              <td colSpan={5} align="center" style={{ textAlign: "center" }}>
+              <td colSpan={5} align="center">
                 <button
                   data-type="load-more"
                   onClick={handlePage}
