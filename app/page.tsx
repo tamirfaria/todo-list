@@ -3,11 +3,12 @@ import { todoController } from "@client/controller/todo";
 import { Todo } from "@client/model/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
 import { formatedDate } from "@utils/formatedDate";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 function HomePage() {
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -27,8 +28,14 @@ function HomePage() {
     }
   }, []);
 
+  const filteredTodos = todoController.filterTodosByContent({
+    todoList,
+    search,
+  });
+
   const hasMorePages = totalPages > page;
-  const hasNoTodos = todoList.length === 0;
+  const hasNoTodos = filteredTodos.length === 0;
+
   const handlePage = () => {
     setIsLoading(true);
     const nextPage = page + 1;
@@ -44,8 +51,12 @@ function HomePage() {
         setIsLoading(false);
       });
   };
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const valueSearch = event.target.value;
+    setSearch(valueSearch);
+  };
 
-  const formatedTodoList = todoList.map(({ id, date, content }) => (
+  const formatedTodoList = filteredTodos.map(({ id, date, content }) => (
     <tr key={`${id}`}>
       <td>
         <input type="checkbox" />
@@ -79,7 +90,11 @@ function HomePage() {
 
       <section>
         <form>
-          <input type="text" placeholder="Filtrar lista atual, ex: Dentista" />
+          <input
+            type="text"
+            placeholder="Filtrar lista atual, ex: Dentista"
+            onChange={handleSearch}
+          />
         </form>
 
         <table border={1}>
