@@ -12,11 +12,13 @@ interface TodoRepositoryGetResponse {
   pages: number;
 }
 
+const BASE_URL = "/api/todos";
+
 async function get({
   page,
   limit,
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetResponse> {
-  const res = await fetch(`/api/todos?page=${page}&limit=${limit}`);
+  const res = await fetch(`${BASE_URL}?page=${page}&limit=${limit}`);
   const data = await res.json();
   const convertedData = validatedResponse(data);
 

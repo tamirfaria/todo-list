@@ -6,6 +6,12 @@ interface TodoControllerGetParams {
   limit?: number;
 }
 
+interface TodoControllerCreateParams {
+  content?: string;
+  onError: () => void;
+  onSuccess: (todo: any) => void;
+}
+
 interface TodoControllerFilterParams {
   todoList: Todo[];
   search: string;
@@ -16,6 +22,26 @@ async function get({ page, limit }: TodoControllerGetParams) {
     page: page || 1,
     limit: limit || 1,
   });
+}
+
+async function create({
+  content,
+  onError,
+  onSuccess,
+}: TodoControllerCreateParams) {
+  if (!content) {
+    onError();
+    return;
+  }
+
+  const todo = {
+    id: "123123",
+    content,
+    date: new Date(),
+    done: false,
+  };
+
+  onSuccess(todo);
 }
 
 function filterTodosByContent({
@@ -32,5 +58,9 @@ function filterTodosByContent({
 
 export const todoController = {
   get,
+  create,
   filterTodosByContent,
 };
+function uuid() {
+  throw new Error("Function not implemented.");
+}

@@ -3,13 +3,14 @@ import { todoController } from "@client/controller/todo";
 import { Todo } from "@client/model/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
 import { formatedDate } from "@utils/formatedDate";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 function HomePage() {
   const initialLoadComplete = useRef(false);
   const isLoading = useRef(true);
 
   const [search, setSearch] = useState("");
+  const [newTodoContent, setNewTodoContent] = useState("");
   const [totalPages, setTotalPages] = useState(0);
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [page, setPage] = useState(1);
@@ -53,9 +54,27 @@ function HomePage() {
       });
   };
 
+  const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    todoController.create({
+      content: newTodoContent,
+      onSuccess: (todo) => {
+        setTodoList((oldTodos) => [todo, ...oldTodos]);
+        setNewTodoContent("");
+        alert("Tarefa criada com sucesso");
+      },
+      onError: () => alert("Insira um valor válido"),
+    });
+  };
+
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const valueSearch = event.target.value;
     setSearch(valueSearch);
+  };
+
+  const handleNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
+    const newTodo = event.target.value;
+    setNewTodoContent(newTodo);
   };
 
   const formatedTodoList = filteredTodos.map(({ id, date, content, done }) => (
@@ -82,8 +101,13 @@ function HomePage() {
         <div className="typewriter">
           <h1>O que fazer hoje?</h1>
         </div>
-        <form>
-          <input type="text" placeholder="Correr, Estudar..." />
+        <form onSubmit={handleCreateTodo}>
+          <input
+            type="text"
+            placeholder="Correr, Estudar..."
+            value={newTodoContent}
+            onChange={handleNewTodo}
+          />
           <button type="submit" aria-label="Adicionar novo item">
             +
           </button>
