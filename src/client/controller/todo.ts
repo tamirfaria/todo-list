@@ -9,7 +9,7 @@ interface TodoControllerGetParams {
 interface TodoControllerCreateParams {
   content?: string;
   onError: () => void;
-  onSuccess: (todo: any) => void;
+  onSuccess: (todo: Todo) => void;
 }
 
 interface TodoControllerFilterParams {
@@ -61,6 +61,3 @@ export const todoController = {
   create,
   filterTodosByContent,
 };
-function uuid() {
-  throw new Error("Function not implemented.");
-}
