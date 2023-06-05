@@ -9,6 +9,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
+  if (method === "POST") {
+    todoController.create(req, res);
+    return;
+  }
+
   res.status(405).json({
     message: `Method '${method}' not allowed`,
   });
