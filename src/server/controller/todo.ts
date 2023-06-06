@@ -1,6 +1,6 @@
 import { todoRepository } from "@server/repository/todo";
 import { NextApiRequest, NextApiResponse } from "next";
-import { TodoCreateBodySchema } from "./schema";
+import { TodoCreateBodySchema } from "../schema";
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
   const page = Number(req.query.page);
