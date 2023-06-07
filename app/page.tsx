@@ -4,6 +4,7 @@ import { Todo } from "@client/model/todo";
 import { GlobalStyles } from "@theme/GlobalStyles";
 import { formatedDate } from "@utils/formatedDate";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 function HomePage() {
   const initialLoadComplete = useRef(false);
@@ -54,33 +55,52 @@ function HomePage() {
       });
   };
 
+  const hasRepeatedTodo = todoList.find(
+    (todo) => todo.content.toLowerCase() === newTodoContent.toLowerCase()
+  );
+
   const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (hasRepeatedTodo) {
+      toast.error(
+        "Há uma tarefa com a mesma descrição. Crie uma tarefa diferente!"
+      );
+      return;
+    }
+
     todoController.create({
       content: newTodoContent,
       onSuccess: (todo) => {
         setTodoList((oldTodos) => [todo, ...oldTodos]);
         setNewTodoContent("");
-        alert("Tarefa criada com sucesso");
+        toast.success("Tarefa criada com sucesso!");
       },
-      onError: () => alert("Insira um valor válido"),
+      onError: () =>
+        toast.error("Preencha o campo antes de cadastrar uma nova tarefa"),
     });
   };
 
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchTodo = (event: ChangeEvent<HTMLInputElement>) => {
     const valueSearch = event.target.value;
     setSearch(valueSearch);
   };
 
-  const handleNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSetNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
     const newTodo = event.target.value;
+
     setNewTodoContent(newTodo);
   };
 
   const formatedTodoList = filteredTodos.map(({ id, date, content, done }) => (
     <tr key={`${id}`}>
       <td>
-        <input type="checkbox" checked={done} />
+        <input
+          type="checkbox"
+          checked={done}
+          onChange={(e) => {
+            console.log({ e });
+          }}
+        />
       </td>
       <td>{id.substring(0, 5)}</td>
       <td>{content}</td>
@@ -106,7 +126,7 @@ function HomePage() {
             type="text"
             placeholder="Correr, Estudar..."
             value={newTodoContent}
-            onChange={handleNewTodo}
+            onChange={handleSetNewTodo}
           />
           <button type="submit" aria-label="Adicionar novo item">
             +
@@ -119,7 +139,7 @@ function HomePage() {
           <input
             type="text"
             placeholder="Filtrar lista atual, ex: Dentista"
-            onChange={handleSearch}
+            onChange={handleSearchTodo}
           />
         </form>
 
@@ -178,6 +198,7 @@ function HomePage() {
           </tbody>
         </table>
       </section>
+      <Toaster position="top-center" />
     </main>
   );
 }
