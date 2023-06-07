@@ -1,4 +1,4 @@
-import { Todo } from "@client/repository/todo";
+import { Todo } from "@client/model/todo";
 
 interface ValidatedResponseParams {
   responseBody: unknown;
@@ -32,7 +32,7 @@ export function validatedResponse({
       const { id, content, date, done } = todo as {
         id: string;
         content: string;
-        date: Date;
+        date: string;
         done: boolean;
       };
 

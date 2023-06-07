@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 
 export interface TodoList {
   id: string;
-  date: Date;
+  date: string;
   content: string;
   done: boolean;
 }
@@ -13,7 +13,7 @@ const DB_FILE_PATH = "./core/db";
 export function create(content: string): TodoList {
   const todo: TodoList = {
     id: uuid(),
-    date: new Date(),
+    date: new Date().toISOString(),
     content: content,
     done: false,
   };
