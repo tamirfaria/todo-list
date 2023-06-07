@@ -7,37 +7,35 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 function HomePage() {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [newTodoContent, setNewTodoContent] = useState("");
+
   const initialLoadComplete = useRef(false);
   const isLoading = useRef(true);
 
-  const [search, setSearch] = useState("");
-  const [newTodoContent, setNewTodoContent] = useState("");
-  const [totalPages, setTotalPages] = useState(0);
-  const [todoList, setTodoList] = useState<Todo[]>([]);
-  const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    if (!initialLoadComplete.current) {
-      todoController
-        .get({ page, limit: 2 })
-        .then(({ todos, pages }) => {
-          setTodoList(todos);
-          setTotalPages(pages);
-        })
-        .finally(() => {
-          isLoading.current = false;
-          initialLoadComplete.current = true;
-        });
-    }
-  }, []);
-
-  const filteredTodos = todoController.filterTodosByContent({
+  const filteredTodos: Todo[] = todoController.filterTodosByContent({
     todoList,
     search,
   });
 
   const hasMorePages = totalPages > page;
   const hasNoTodos = filteredTodos.length === 0;
+  const hasRepeatedTodo = todoList.find(
+    (todo) => todo.content.toLowerCase() === newTodoContent.toLowerCase()
+  );
+
+  const handleSearchTodo = (event: ChangeEvent<HTMLInputElement>) => {
+    const valueSearch = event.target.value;
+    setSearch(valueSearch);
+  };
+
+  const handleSetNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
+    const newTodo = event.target.value;
+    setNewTodoContent(newTodo);
+  };
 
   const handlePage = () => {
     isLoading.current = true;
@@ -55,13 +53,10 @@ function HomePage() {
       });
   };
 
-  const hasRepeatedTodo = todoList.find(
-    (todo) => todo.content.toLowerCase() === newTodoContent.toLowerCase()
-  );
-
   const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (hasRepeatedTodo) {
+      setNewTodoContent("");
       toast.error(
         "Há uma tarefa com a mesma descrição. Crie uma tarefa diferente!"
       );
@@ -70,26 +65,31 @@ function HomePage() {
 
     todoController.create({
       content: newTodoContent,
+      onError: () => {
+        toast.error("Preencha o campo antes de cadastrar uma nova tarefa");
+      },
       onSuccess: (todo) => {
         setTodoList((oldTodos) => [todo, ...oldTodos]);
         setNewTodoContent("");
         toast.success("Tarefa criada com sucesso!");
       },
-      onError: () =>
-        toast.error("Preencha o campo antes de cadastrar uma nova tarefa"),
     });
   };
 
-  const handleSearchTodo = (event: ChangeEvent<HTMLInputElement>) => {
-    const valueSearch = event.target.value;
-    setSearch(valueSearch);
-  };
-
-  const handleSetNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
-    const newTodo = event.target.value;
-
-    setNewTodoContent(newTodo);
-  };
+  useEffect(() => {
+    if (!initialLoadComplete.current) {
+      todoController
+        .get({ page, limit: 2 })
+        .then(({ todos, pages }) => {
+          setTodoList(todos);
+          setTotalPages(pages);
+        })
+        .finally(() => {
+          isLoading.current = false;
+          initialLoadComplete.current = true;
+        });
+    }
+  }, []);
 
   const formatedTodoList = filteredTodos.map(({ id, date, content, done }) => (
     <tr key={`${id}`}>
