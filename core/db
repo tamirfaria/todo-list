@@ -1,16 +1,3 @@
 {
-  "todoList": [
-    {
-      "id": "bc7a165a-6f92-4cfd-868e-17399accbcff",
-      "date": "2023-05-16T00:07:51:718Z",
-      "content": "Primeira TODO",
-      "done": false
-    },
-    {
-      "id": "ed6b1195-34a0-42cd-b71a-f5bc425e51c1",
-      "date": "2023-06-07T13:22:08.280Z",
-      "content": "Segunda TODO",
-      "done": false
-    }
-  ]
+  "Todo": []
 }
