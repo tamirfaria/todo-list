@@ -1,7 +1,7 @@
 import fs from "fs";
 import { v4 as uuid } from "uuid";
 
-export interface TodoList {
+export interface Todo {
   id: string;
   date: string;
   content: string;
@@ -10,31 +10,31 @@ export interface TodoList {
 
 const DB_FILE_PATH = "./core/db";
 
-export function create(content: string): TodoList {
-  const todo: TodoList = {
+export function create(content: string): Todo {
+  const todo: Todo = {
     id: uuid(),
     date: new Date().toISOString(),
     content: content,
     done: false,
   };
 
-  const todoList: Array<TodoList> = [...read(), todo];
-  const stringfiedTodo = JSON.stringify({ todoList }, null, 2);
+  const Todo: Array<Todo> = [...read(), todo];
+  const stringfiedTodo = JSON.stringify({ Todo }, null, 2);
   fs.writeFileSync(DB_FILE_PATH, stringfiedTodo);
 
   return todo;
 }
 
-export function read(): Array<TodoList> {
+export function read(): Array<Todo> {
   const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8") || "{}";
   const db = JSON.parse(dbString);
-  return !db.todoList ? [] : db.todoList;
+  return !db.Todo ? [] : db.Todo;
 }
 
-export function update(id: string, partialTodo: Partial<TodoList>): TodoList {
+export function update(id: string, partialTodo: Partial<Todo>): Todo {
   let updatedTodo;
-  const todoList = read();
-  todoList.forEach((currentTodo) => {
+  const Todo = read();
+  Todo.forEach((currentTodo) => {
     const isToUpdate = currentTodo.id === id;
     if (isToUpdate) {
       //* O Object.assing sobreescreve as props do primeiro parâmetro com as props do segundo parâmetro
@@ -46,19 +46,19 @@ export function update(id: string, partialTodo: Partial<TodoList>): TodoList {
     throw new Error("Please, provide another ID");
   }
 
-  const stringfiedTodo = JSON.stringify({ todoList }, null, 2);
+  const stringfiedTodo = JSON.stringify({ Todo }, null, 2);
   fs.writeFileSync(DB_FILE_PATH, stringfiedTodo);
 
   return updatedTodo;
 }
 
-export function updateContentById(id: string, content: string): TodoList {
+export function updateContentById(id: string, content: string): Todo {
   return update(id, { content });
 }
 
 export function deleteById(id: string) {
-  const todoList = read();
-  const todoListWithoutDeletedTodo = todoList.filter((todo) => {
+  const Todo = read();
+  const TodoWithoutDeletedTodo = Todo.filter((todo) => {
     const isEqualId = id === todo.id;
     if (!isEqualId) {
       return true;
@@ -66,7 +66,7 @@ export function deleteById(id: string) {
     return false;
   });
   const stringfiedTodo = JSON.stringify(
-    { todoList: todoListWithoutDeletedTodo },
+    { Todo: TodoWithoutDeletedTodo },
     null,
     2
   );
