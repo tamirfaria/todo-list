@@ -15,6 +15,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   res.status(405).json({
-    message: `Method '${method}' not allowed`,
+    error: { message: "Method not allowed" },
   });
 }
