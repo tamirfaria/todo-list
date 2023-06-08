@@ -20,17 +20,12 @@ async function get({
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetResponse> {
   const res = await fetch(`${BASE_URL}?page=${page}&limit=${limit}`);
   const data = await res.json();
-  const convertedData = validatedResponse(data);
-
-  return {
-    todos: convertedData.todos,
-    total: convertedData.total,
-    pages: convertedData.pages,
-  };
+  const { todos, total, pages } = validatedResponse(data);
+  return { todos, total, pages };
 }
 
 async function createByContent(content: string): Promise<Todo> {
-  const response = await fetch("api/todos", {
+  const response = await fetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,9 +37,8 @@ async function createByContent(content: string): Promise<Todo> {
     const serverResponse = await response.json();
     const serverResponseParsed = ServerResponseSchema.safeParse(serverResponse);
 
-    if (!serverResponseParsed.success) {
+    if (!serverResponseParsed.success)
       throw new Error("Failed to create a new TODO...");
-    }
 
     const todo = serverResponseParsed.data.todo;
     return todo;
@@ -52,7 +46,25 @@ async function createByContent(content: string): Promise<Todo> {
   throw new Error("Failed to create a new TODO...");
 }
 
+async function toggleDone(id: string): Promise<Todo> {
+  const response = await fetch(`${BASE_URL}/${id}/toggle-done`, {
+    method: "PUT",
+  });
+
+  if (response.ok) {
+    const serverResponse = await response.json();
+    const serverResponseParsed = ServerResponseSchema.safeParse(serverResponse);
+    if (!serverResponseParsed.success)
+      throw new Error("Failed to update a new TODO...");
+
+    const updatedTodo = serverResponseParsed.data.todo;
+    return updatedTodo;
+  }
+  throw new Error("Server error");
+}
+
 export const todoRepository = {
   get,
   createByContent,
+  toggleDone,
 };

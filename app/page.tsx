@@ -97,14 +97,36 @@ function HomePage() {
         <input
           type="checkbox"
           checked={done}
-          onChange={(e) => {
-            console.log({ e });
+          onChange={() => {
+            todoController.toggleDone({
+              id,
+              onError() {
+                toast.error("Falha ao atualizar a TODO...");
+              },
+              onSuccess() {
+                !done &&
+                  toast.success("Parabéns! Você concluiu mais uma tarefa");
+              },
+              updateTodoOnScreen() {
+                setTodoList((currentTodos) => {
+                  return currentTodos.map((currentTodo) => {
+                    if (currentTodo.id === id) {
+                      return {
+                        ...currentTodo,
+                        done: !currentTodo.done,
+                      };
+                    }
+                    return currentTodo;
+                  });
+                });
+              },
+            });
           }}
         />
       </td>
-      <td>{id.substring(0, 5)}</td>
-      <td>{content}</td>
-      <td>{formatedDate(date)}</td>
+      <td>{!done ? id.substring(0, 5) : <s>{id.substring(0, 5)}</s>}</td>
+      <td>{!done ? content : <s>{content}</s>}</td>
+      <td>{!done ? formatedDate(date) : <s>{formatedDate(date)}</s>}</td>
       <td align="right">
         <button data-type="delete">Apagar</button>
       </td>

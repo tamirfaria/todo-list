@@ -18,10 +18,17 @@ interface TodoControllerFilterParams {
   search: string;
 }
 
-async function get({ page, limit }: TodoControllerGetParams) {
+interface TodoControllerToggleDone {
+  id: string;
+  onError: () => void;
+  onSuccess: () => void;
+  updateTodoOnScreen: () => void;
+}
+
+function get({ page, limit }: TodoControllerGetParams) {
   return todoRepository.get({
     page: page || 1,
-    limit: limit || 1,
+    limit: limit || 2,
   });
 }
 
@@ -59,8 +66,26 @@ function filterTodosByContent({
   return filteredTodos;
 }
 
+function toggleDone({
+  id,
+  onError,
+  onSuccess,
+  updateTodoOnScreen,
+}: TodoControllerToggleDone) {
+  todoRepository
+    .toggleDone(id)
+    .then(() => {
+      updateTodoOnScreen();
+      onSuccess();
+    })
+    .catch(() => {
+      onError();
+    });
+}
+
 export const todoController = {
   get,
   create,
   filterTodosByContent,
+  toggleDone,
 };
