@@ -75,11 +75,13 @@ async function deleteTodoById(req: NextApiRequest, res: NextApiResponse) {
   try {
     await todoRepository.deleteTodoById(id.data);
     res.status(204).end();
+    return;
   } catch (err) {
     if (err instanceof HttpNotFoundError) {
       res.status(err.status).json({ error: { message: err.message } });
     }
   }
+
   res.status(500).json({
     error: { message: "Internal server error" },
   });
