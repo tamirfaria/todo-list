@@ -6,17 +6,14 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
 
-  const hasQuery = !!req.query.page && !!req.query.limit;
-  const hasValidNumber = !isNaN(page) && !isNaN(limit);
-
-  if (hasQuery && !hasValidNumber) {
+  if ((req.query.page && isNaN(page)) || (req.query.limit && isNaN(limit))) {
     res.status(400).json({
       error: { message: "page and limit must be a number" },
     });
     return;
   }
 
-  const { pages, total, todos } = await todoRepository.get({ page, limit });
+  const { pages, total, todos } = todoRepository.get({ page, limit });
 
   res.status(200).json({
     pages,
@@ -53,10 +50,8 @@ async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const updatedTodo = await todoRepository.toggleDone(id.data);
-    res.status(200).json({
-      todo: updatedTodo,
-    });
+    const todo = await todoRepository.toggleDone(id.data);
+    res.status(200).json({ todo });
   } catch (err) {
     if (err instanceof Error) {
       res.status(404).json({

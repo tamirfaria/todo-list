@@ -12,12 +12,12 @@ interface TodoRepositoryGetResponse {
   todos: Todo[];
 }
 
-async function get({
+function get({
   page,
   limit,
-}: TodoRepositoryGetParams): Promise<TodoRepositoryGetResponse> {
+}: TodoRepositoryGetParams): TodoRepositoryGetResponse {
   const currentPage = page || 1;
-  const currentLimit = limit || 100;
+  const currentLimit = limit || 10;
   const ALL_TODOS = read().reverse();
 
   const startIndex = (currentPage - 1) * currentLimit;
