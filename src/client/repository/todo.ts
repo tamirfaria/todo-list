@@ -47,7 +47,7 @@ async function createByContent(content: string): Promise<Todo> {
 }
 
 async function toggleDone(id: string): Promise<Todo> {
-  const response = await fetch(`${BASE_URL}/${id}/toggle-done`, {
+  const response = await fetch(`${BASE_URL}/${id}`, {
     method: "PUT",
   });
 
@@ -63,8 +63,14 @@ async function toggleDone(id: string): Promise<Todo> {
   throw new Error("Server error");
 }
 
+async function deleteTodoById(id: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+  if (!response.ok) throw new Error("Server error");
+}
+
 export const todoRepository = {
   get,
   createByContent,
   toggleDone,
+  deleteTodoById,
 };
