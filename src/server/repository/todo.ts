@@ -1,4 +1,4 @@
-import { create, read, update } from "@db-crud-todo";
+import { create, deleteById, read, update } from "@db-crud-todo";
 import { Todo } from "@server/model/todo";
 
 interface TodoRepositoryGetParams {
@@ -36,14 +36,23 @@ async function createByContent(content: string) {
 
 async function toggleDone(id: string): Promise<Todo> {
   const ALL_TODOS = read();
-  const filteredTodo = ALL_TODOS.find((todo) => todo.id === id);
-  if (!filteredTodo) throw new Error(`TODO with id: ${id} not find`);
+  const validatedId = ALL_TODOS.find((todo) => todo.id === id);
+  if (!validatedId) throw new Error(`TODO with id: ${id} not find`);
 
-  const updatedTodo = update(filteredTodo.id, { done: !filteredTodo.done });
+  const updatedTodo = update(validatedId.id, { done: !validatedId.done });
   return updatedTodo;
 }
+
+async function deleteTodoById(id: string) {
+  const ALL_TODOS = read();
+  const validatedId = ALL_TODOS.find((todo) => todo.id === id);
+  if (!validatedId) throw new Error(`TODO with id: ${id} not find`);
+  deleteById(id);
+}
+
 export const todoRepository = {
   get,
   createByContent,
   toggleDone,
+  deleteTodoById,
 };

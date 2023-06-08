@@ -1,7 +1,7 @@
 import { z as schema } from "zod";
 
 export const TodoCreateBodySchema = schema.object({
-  content: schema.string(),
+  content: schema.string().nonempty(),
 });
 
-export const TodoUpdateIdQuerySchema = schema.string().uuid();
+export const TodoIdSchema = schema.string().uuid().nonempty();

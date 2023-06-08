@@ -1,6 +1,7 @@
+import { HttpNotFoundError } from "@server/infra/errors";
 import { todoRepository } from "@server/repository/todo";
 import { NextApiRequest, NextApiResponse } from "next";
-import { TodoCreateBodySchema, TodoUpdateIdQuerySchema } from "../schema";
+import { TodoCreateBodySchema, TodoIdSchema } from "../schema";
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
   const page = Number(req.query.page);
@@ -40,7 +41,7 @@ async function create(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
-  const id = TodoUpdateIdQuerySchema.safeParse(req.query.id);
+  const id = TodoIdSchema.safeParse(req.query.id);
 
   if (!id.success) {
     res.status(400).json({
@@ -61,8 +62,32 @@ async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+async function deleteTodoById(req: NextApiRequest, res: NextApiResponse) {
+  const id = TodoIdSchema.safeParse(req.query.id);
+
+  if (!id.success) {
+    res.status(400).json({
+      error: { message: "You must be provide a valid id" },
+    });
+    return;
+  }
+
+  try {
+    await todoRepository.deleteTodoById(id.data);
+    res.status(204).end();
+  } catch (err) {
+    if (err instanceof HttpNotFoundError) {
+      res.status(err.status).json({ error: { message: err.message } });
+    }
+  }
+  res.status(500).json({
+    error: { message: "Internal server error" },
+  });
+}
+
 export const todoController = {
   get,
   create,
   toggleDone,
+  deleteTodoById,
 };
