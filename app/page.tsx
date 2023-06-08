@@ -69,11 +69,25 @@ function HomePage() {
         toast.error("Preencha o campo antes de cadastrar uma nova tarefa");
       },
       onSuccess: (todo) => {
-        setTodoList((oldTodos) => [todo, ...oldTodos]);
+        setTodoList((oldTodos) => [...oldTodos, todo].reverse());
         setNewTodoContent("");
         toast.success("Tarefa criada com sucesso!");
       },
     });
+  };
+
+  const handleDeleteTodoById = (id: string) => {
+    todoController
+      .deleteTodoById(id)
+      .then(() => {
+        setTodoList((currentTodos) =>
+          currentTodos.filter((currentTodo) => currentTodo.id !== id)
+        );
+        toast.success("Tarefa deletada!", { icon: "🪓" });
+      })
+      .catch(() => {
+        toast.error("Não foi possível deletar a tafera");
+      });
   };
 
   useEffect(() => {
@@ -128,7 +142,9 @@ function HomePage() {
       <td>{!done ? content : <s>{content}</s>}</td>
       <td>{!done ? formatedDate(date) : <s>{formatedDate(date)}</s>}</td>
       <td align="right">
-        <button data-type="delete">Apagar</button>
+        <button data-type="delete" onClick={() => handleDeleteTodoById(id)}>
+          Apagar
+        </button>
       </td>
     </tr>
   ));
@@ -189,34 +205,34 @@ function HomePage() {
               </tr>
             )}
 
-            {hasNoTodos && (
+            {hasNoTodos ? (
               <tr>
                 <td colSpan={5} align="center">
                   Nenhum item encontrado
                 </td>
               </tr>
-            )}
-
-            <tr>
-              <td colSpan={5} align="center">
-                <button
-                  data-type="load-more"
-                  onClick={handlePage}
-                  disabled={!hasMorePages}
-                >
-                  Página {page} - Carregar mais{" "}
-                  <span
-                    style={{
-                      display: "inline-block",
-                      marginLeft: "4px",
-                      fontSize: "1.2em",
-                    }}
+            ) : (
+              <tr>
+                <td colSpan={5} align="center">
+                  <button
+                    data-type="load-more"
+                    onClick={handlePage}
+                    disabled={!hasMorePages}
                   >
-                    ↓
-                  </span>
-                </button>
-              </td>
-            </tr>
+                    Página {page} - Carregar mais{" "}
+                    <span
+                      style={{
+                        display: "inline-block",
+                        marginLeft: "4px",
+                        fontSize: "1.2em",
+                      }}
+                    >
+                      ↓
+                    </span>
+                  </button>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </section>
