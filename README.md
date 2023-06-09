@@ -1,6 +1,4 @@
-Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho).
-
-<br>
+> Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho).
 
 ## 💻Tecnologias Utilizadas
 
