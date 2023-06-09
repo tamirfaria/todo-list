@@ -10,14 +10,14 @@
     "start": "next start",
     "start:crud": "npx ts-node ./core/crud.ts",
     "lint": "eslint './**/*.{js, jsx, ts, tsx}' --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress": "cypress open"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tamirfaria/todo-list.git"
   },
   "dependencies": {
-    "eslint-plugin-chai-friendly": "^0.7.2",
     "next": "^13.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
