@@ -1,6 +1,4 @@
-![Logo do curso Crud com Qualidade, por Mario Souto](./public/logo-white.webp)
-
-Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido @devsoutinho
+Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho).
 
 <br>
 
