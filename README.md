@@ -1,6 +1,6 @@
-> Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho).
-
 ![License - MIT](https://img.shields.io/badge/License-MIT-orange)
+
+> Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho).
 
 ## 💻Tecnologias Utilizadas
 
