@@ -10,8 +10,9 @@
     "start": "next start",
     "start:crud": "npx ts-node ./core/crud.ts",
     "lint": "eslint './**/*.{js, jsx, ts, tsx}' --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "cypress": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test": "start-server-and-test dev http://localhost:3000 cypress:run"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
+    "start-server-and-test": "^2.0.0",
     "uuid": "^9.0.0",
     "zod": "^3.21.4"
   },

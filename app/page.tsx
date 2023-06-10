@@ -161,6 +161,7 @@ function HomePage() {
         </div>
         <form onSubmit={handleCreateTodo}>
           <input
+            name="add-todo"
             type="text"
             placeholder="Correr, Estudar..."
             value={newTodoContent}
