@@ -12,16 +12,16 @@
 
 1. Validação dos valores inseridos no input, impedindo que o usuário cadastre duas tarefas identicas;
 2. Implementação de uma leve transição na imagem de background do lado esquerdo da tela;
-3. Devolvendo ao usuário mensagens em casos de sucesso e erro com toasts na tela.
+3. Devolvendo ao usuário mensagens em casos de sucesso e erro com toasts na tela;
+4. Testes de integração cobrindo todos os possíveis casos de sucesso e erro no frontend.
 
 <br>
 
 ## 🩺Próximas Implementações
 
-1. Criação de testes E2E com Cypress cobrindo todos os casos;
-2. Automatização de testes com o GitHub Actions;
-3. Criar um banco de dados com o Supabase;
-4. Configuração do CI/CD.
+1. Automatização de testes com o GitHub Actions;
+2. Criar um banco de dados com o Supabase;
+3. Configuração do CI/CD.
 
 <br>
 
