@@ -1,5 +1,7 @@
 > Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho).
 
+![License - MIT](https://img.shields.io/badge/License-MIT-orange)
+
 ## 💻Tecnologias Utilizadas
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![NextJS](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) ![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white)
