@@ -66,7 +66,7 @@ function HomePage() {
     todoController.create({
       content: newTodoContent,
       onError: () => {
-        toast.error("Preencha o campo antes de cadastrar uma nova tarefa");
+        toast.error("Preencha o campo antes de cadastrar uma nova tarefa!");
       },
       onSuccess: (todo) => {
         setTodoList((oldTodos) => [...oldTodos, todo].reverse());
@@ -109,6 +109,7 @@ function HomePage() {
     <tr key={`${id}`}>
       <td>
         <input
+          name="checkbox-todo-list"
           type="checkbox"
           checked={done}
           onChange={() => {
@@ -119,7 +120,7 @@ function HomePage() {
               },
               onSuccess() {
                 !done &&
-                  toast.success("Parabéns! Você concluiu mais uma tarefa");
+                  toast.success("Parabéns! Você concluiu mais uma tarefa!");
               },
               updateTodoOnScreen() {
                 setTodoList((currentTodos) => {
@@ -139,7 +140,9 @@ function HomePage() {
         />
       </td>
       <td>{!done ? id.substring(0, 5) : <s>{id.substring(0, 5)}</s>}</td>
-      <td>{!done ? content : <s>{content}</s>}</td>
+      <td>
+        {!done ? content : <s aria-label="strikethrough-line">{content}</s>}
+      </td>
       <td>{!done ? formatedDate(date) : <s>{formatedDate(date)}</s>}</td>
       <td align="right">
         <button data-type="delete" onClick={() => handleDeleteTodoById(id)}>

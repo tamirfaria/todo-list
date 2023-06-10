@@ -1,7 +1,7 @@
 import { CyHttpMessages } from "cypress/types/net-stubbing";
 
 const URL_BASE = "http://localhost:3000";
-const MOCK_REQUEST = (request: CyHttpMessages.IncomingHttpRequest) => {
+const MOCK_REQUEST_POST = (request: CyHttpMessages.IncomingHttpRequest) => {
   request.reply({
     statusCode: 201,
     body: {
@@ -15,14 +15,31 @@ const MOCK_REQUEST = (request: CyHttpMessages.IncomingHttpRequest) => {
   });
 };
 
-describe("/ → <HomePage />", () => {
+const MOCK_REQUEST_PUT = (request: CyHttpMessages.IncomingHttpRequest) => {
+  request.reply({
+    statusCode: 200,
+    body: {
+      todo: {
+        id: "f2249ffa-dcee-4c7f-9104-c27a14f86f13",
+        date: "2023-06-10T13:24:53.743Z",
+        content: "Teste Cypress",
+        done: true,
+      },
+    },
+  });
+};
+
+const MOCK_REQUEST_DELETE = (request: CyHttpMessages.IncomingHttpRequest) => {
+  request.reply({ statusCode: 204 });
+};
+
+describe("<HomePage />", () => {
   beforeEach("should render the page before each action", () => {
     cy.visit(URL_BASE);
   });
 
   it("should create a new todo and read this in list table", () => {
-    // 👇 Essa etapa visa não consumir as rota da API desnecessariamente
-    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST).as(
+    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
       "createTodo"
     );
     cy.get("input[name='add-todo']").type("Teste Cypress");
@@ -32,7 +49,7 @@ describe("/ → <HomePage />", () => {
   });
 
   it("should render a error toast when registering a repeated task", () => {
-    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST).as(
+    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
       "createTodo"
     );
     cy.get("input[name='add-todo']").type("Teste Cypress");
@@ -46,27 +63,55 @@ describe("/ → <HomePage />", () => {
     );
   });
 
-  //Devo criar um caso de teste onde submito o formulário sem inserir nenhum dado, e espero receber um erro
+  it("should render a erro toast when a submit without having completed the form", () => {
+    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
+      "createTodo"
+    );
+    cy.get("input[name='add-todo']").type(" ");
+    cy.get("button[aria-label='Adicionar novo item']").click();
+    cy.get("div[role='status']").contains(
+      "Preencha o campo antes de cadastrar uma nova tarefa!"
+    );
+  });
 
-  // it("should risk table row when marking task complete", () => {
-  // 1. Entrar na página
-  // 2. Capturar o input
-  // 3. Inserir uma tarefa no input
-  // 4. Clicar no botão de enviar a tarefa
-  // 5. Receber o toast de sucesso
-  // 6. Marcar a mesma tarefa como concluída
-  // 7. Receber o toast de sucesso
-  // 8. Verificar se o linha possui a tag <s></s>
-  // });
+  it("should strike the table row when marking task complete", () => {
+    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
+      "createTodo"
+    );
 
-  // it("should delete task when click in respective delete task button", () => {
-  // 1. Entrar na página
-  // 2. Capturar o input
-  // 3. Inserir uma tarefa no input
-  // 4. Clicar no botão de enviar a tarefa
-  // 5. Receber o toast de sucesso
-  // 6. Clicar no botão de apagar da respectiva task
-  // 7. Receber um toast de sucesso
-  // 8. Não conseguir encontrar a mesma task
-  // });
+    cy.intercept(
+      "PUT",
+      `${URL_BASE}/api/todos/f2249ffa-dcee-4c7f-9104-c27a14f86f13`,
+      MOCK_REQUEST_PUT
+    ).as("updateTodo");
+
+    cy.get("input[name='add-todo']").type("Teste Cypress");
+    cy.get("button[aria-label='Adicionar novo item']").click();
+    cy.get("div[role='status']").contains("Tarefa criada com sucesso!");
+    cy.get("input[name='checkbox-todo-list']").check();
+    expect(cy.get("s[aria-label='strikethrough-line']"));
+    expect(
+      cy
+        .get("div[role='status']")
+        .contains("Parabéns! Você concluiu mais uma tarefa!")
+    );
+  });
+
+  it("should delete task when click in respective delete task button", () => {
+    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
+      "createTodo"
+    );
+
+    cy.intercept(
+      "DELETE",
+      `${URL_BASE}/api/todos/f2249ffa-dcee-4c7f-9104-c27a14f86f13`,
+      MOCK_REQUEST_DELETE
+    ).as("deleteTodo");
+
+    cy.get("input[name='add-todo']").type("Teste Cypress");
+    cy.get("button[aria-label='Adicionar novo item']").click();
+    cy.get("div[role='status']").contains("Tarefa criada com sucesso!");
+    cy.get("button[data-type='delete']").click();
+    expect(cy.get("div[role='status']").contains("Tarefa deletada!"));
+  });
 });

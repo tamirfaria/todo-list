@@ -37,7 +37,7 @@ async function create({
   onError,
   onSuccess,
 }: TodoControllerCreateParams) {
-  const parsedParams = schema.string().nonempty().safeParse(content);
+  const parsedParams = schema.string().nonempty().safeParse(content?.trim());
 
   if (!parsedParams.success) {
     onError();
