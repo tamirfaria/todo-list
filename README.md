@@ -22,10 +22,9 @@
 1. Automatização de testes com o GitHub Actions;
 2. Criar um banco de dados com o Supabase;
 3. Configuração do CI/CD;
-4. Refactor dos testes;
-5. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
-6. Acrescentar uma feature de edição de tarefas;
-7. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar".
+4. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
+5. Acrescentar uma feature de edição de tarefas;
+6. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar".
 
 <br>
 
