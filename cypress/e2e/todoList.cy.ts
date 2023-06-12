@@ -36,12 +36,25 @@ const MOCK_REQUEST_DELETE = (request: CyHttpMessages.IncomingHttpRequest) => {
 describe("<HomePage />", () => {
   beforeEach("should render the page before each action", () => {
     cy.visit(URL_BASE);
-  });
 
-  it("should create a new todo and read this in list table", () => {
     cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
       "createTodo"
     );
+
+    cy.intercept(
+      "PUT",
+      `${URL_BASE}/api/todos/f2249ffa-dcee-4c7f-9104-c27a14f86f13`,
+      MOCK_REQUEST_PUT
+    ).as("updateTodo");
+
+    cy.intercept(
+      "DELETE",
+      `${URL_BASE}/api/todos/f2249ffa-dcee-4c7f-9104-c27a14f86f13`,
+      MOCK_REQUEST_DELETE
+    ).as("deleteTodo");
+  });
+
+  it("should create a new todo and read this in list table", () => {
     cy.get("input[name='add-todo']").type("Teste Cypress");
     cy.get("button[aria-label='Adicionar novo item']").click();
     cy.get("div[role='status']").contains("Tarefa criada com sucesso!");
@@ -49,9 +62,6 @@ describe("<HomePage />", () => {
   });
 
   it("should render a error toast when registering a repeated task", () => {
-    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
-      "createTodo"
-    );
     cy.get("input[name='add-todo']").type("Teste Cypress");
     cy.get("button[aria-label='Adicionar novo item']").click();
     cy.get("div[role='status']").contains("Tarefa criada com sucesso!");
@@ -64,9 +74,6 @@ describe("<HomePage />", () => {
   });
 
   it("should render a erro toast when a submit without having completed the form", () => {
-    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
-      "createTodo"
-    );
     cy.get("input[name='add-todo']").type(" ");
     cy.get("button[aria-label='Adicionar novo item']").click();
     cy.get("div[role='status']").contains(
@@ -75,16 +82,6 @@ describe("<HomePage />", () => {
   });
 
   it("should strike the table row when marking task complete", () => {
-    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
-      "createTodo"
-    );
-
-    cy.intercept(
-      "PUT",
-      `${URL_BASE}/api/todos/f2249ffa-dcee-4c7f-9104-c27a14f86f13`,
-      MOCK_REQUEST_PUT
-    ).as("updateTodo");
-
     cy.get("input[name='add-todo']").type("Teste Cypress");
     cy.get("button[aria-label='Adicionar novo item']").click();
     cy.get("div[role='status']").contains("Tarefa criada com sucesso!");
@@ -98,16 +95,6 @@ describe("<HomePage />", () => {
   });
 
   it("should delete task when click in respective delete task button", () => {
-    cy.intercept("POST", `${URL_BASE}/api/todos`, MOCK_REQUEST_POST).as(
-      "createTodo"
-    );
-
-    cy.intercept(
-      "DELETE",
-      `${URL_BASE}/api/todos/f2249ffa-dcee-4c7f-9104-c27a14f86f13`,
-      MOCK_REQUEST_DELETE
-    ).as("deleteTodo");
-
     cy.get("input[name='add-todo']").type("Teste Cypress");
     cy.get("button[aria-label='Adicionar novo item']").click();
     cy.get("div[role='status']").contains("Tarefa criada com sucesso!");
