@@ -23,7 +23,8 @@
 2. Configuração do CI/CD;
 3. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
 4. Acrescentar uma feature de edição de tarefas;
-5. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar".
+5. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar";
+6. Testar Github Actions.
 
 <br>
 
