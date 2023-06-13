@@ -13,7 +13,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "test:run": "start-server-and-test dev http://localhost:3000 cypress:run",
-    "test:open": "start-server-and-test dev http://localhost:3000 cypress:run"
+    "test:open": "start-server-and-test dev http://localhost:3000 cypress:open"
   },
   "repository": {
     "type": "git",

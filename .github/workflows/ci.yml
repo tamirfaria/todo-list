@@ -1,0 +1,28 @@
+name: "[CI] Continuous Integration"
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "install dependencies"
+        run: "npm ci"
+
+      - name: "run eslint"
+        run: "npm run lint"
+  
+  test:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: action/checkout@v3
+
+      - name: "install dependencies"
+        run: "npm ci"
+
+      - name: "run tests"
+        run: "npm run test:run"
