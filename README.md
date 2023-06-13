@@ -4,7 +4,7 @@
 
 ## 💻Tecnologias Utilizadas
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![NextJS](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) ![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![NextJS](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) ![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white) ![Github Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
 <br>
 
@@ -19,12 +19,11 @@
 
 ## 🩺Próximas Implementações
 
-1. Automatização de testes com o GitHub Actions;
-2. Criar um banco de dados com o Supabase;
-3. Configuração do CI/CD;
-4. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
-5. Acrescentar uma feature de edição de tarefas;
-6. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar".
+1. Criar um banco de dados com o Supabase;
+2. Configuração do CI/CD;
+3. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
+4. Acrescentar uma feature de edição de tarefas;
+5. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar".
 
 <br>
 
