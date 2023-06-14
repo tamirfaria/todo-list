@@ -1,5 +1,7 @@
 import { create, deleteById, read, update } from "@db-crud-todo";
 import { Todo } from "@server/model/todo";
+import { TodoSchema } from "@server/schema";
+import { createClient } from "@supabase/supabase-js";
 
 interface TodoRepositoryGetParams {
   page?: number;
@@ -12,21 +14,36 @@ interface TodoRepositoryGetResponse {
   todos: Todo[];
 }
 
-function get({
+const supabaseUrl = process.env.SUPABASE_URL || "";
+const supabaseApiKey = process.env.SUPABASE_SECRET_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseApiKey);
+
+async function get({
   page,
   limit,
-}: TodoRepositoryGetParams): TodoRepositoryGetResponse {
+}: TodoRepositoryGetParams): Promise<TodoRepositoryGetResponse> {
   const currentPage = page || 1;
   const currentLimit = limit || 10;
-  const ALL_TODOS = read().reverse();
-
   const startIndex = (currentPage - 1) * currentLimit;
-  const endIndex = currentPage * currentLimit;
-  const paginatedTodos = ALL_TODOS.slice(startIndex, endIndex);
-  const totalTodos = ALL_TODOS.length;
-  const totalPages = Math.ceil(totalTodos / currentLimit);
+  const endIndex = currentPage * currentLimit - 1;
 
-  return { pages: totalPages, total: totalTodos, todos: paginatedTodos };
+  const { data, error, count } = await supabase
+    .from("todos")
+    .select("*", { count: "exact" })
+    .range(startIndex, endIndex);
+
+  if (error) throw new Error("Failed to fetch data");
+
+  const parsedData = TodoSchema.array().safeParse(data);
+
+  if (!parsedData.success)
+    throw new Error("Failed to parse TODO from database");
+
+  const todos = parsedData.data;
+  const total = count || todos.length;
+  const pages = Math.ceil(total / currentLimit);
+
+  return { pages, total, todos };
 }
 
 async function createByContent(content: string) {

@@ -5,3 +5,12 @@ export const TodoCreateBodySchema = schema.object({
 });
 
 export const TodoIdSchema = schema.string().uuid().nonempty();
+
+export const TodoSchema = schema.object({
+  id: TodoIdSchema,
+  content: schema.string().nonempty(),
+  date: schema.string().transform((date) => {
+    return new Date(date).toISOString();
+  }),
+  done: schema.boolean(),
+});
