@@ -1,14 +1,12 @@
-# [• Crud com Qualidade •](https://crudcomqualidade.io/) ![License - MIT](https://img.shields.io/badge/License-MIT-orange)
+![License - MIT](https://img.shields.io/badge/License-MIT-orange)
 
-_Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho)._
-____
+> Projeto desenvolvido durante o curso [Crud com Qualidade](https://crudcomqualidade.io/) criado pelo querido Mario Souto - [@DevSoutinho](https://github.com/devsoutinho).
 
 ## 💻Tecnologias Utilizadas
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![NextJS](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![NextJS](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) ![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white) ![Github Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
-![Github Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white) ![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white)
-____
+<br>
 
 ## 💊Melhorias Implementadas
 
@@ -17,16 +15,18 @@ ____
 3. Devolvendo ao usuário mensagens em casos de sucesso e erro com toasts na tela;
 4. Testes de integração cobrindo todos os possíveis casos de sucesso e erro no frontend.
 
-____
+<br>
 
 ## 🩺Próximas Implementações
 
 1. Criar um banco de dados com o Supabase;
-2. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
-3. Acrescentar uma feature de edição de tarefas;
-4. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar";
+2. Configuração do CI/CD;
+3. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
+4. Acrescentar uma feature de edição de tarefas;
+5. Alterar o style do botão apagar acrescentando um icone 🗑️ ao invés do texto "apagar";
+6. Testar Github Actions.
 
-____
+<br>
 
 ## 📞Contato
 
