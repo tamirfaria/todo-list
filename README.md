@@ -21,10 +21,9 @@ ____
 
 ## 🩺Próximas Implementações
 
-1. Configuração do CI/CD;
-2. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
-3. Acrescentar uma feature de edição de tarefas;
-4. Testar Github Actions.
+1. Adicionar 'datepicker' ao formulário de cadastro de tarefa;
+2. Acrescentar uma feature de edição de tarefas;
+3. Adicionar autenticação de usuário.
 
 ____
 
